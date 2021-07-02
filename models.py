@@ -29,8 +29,8 @@ class User(db.Model):
     password = db.Column(db.Text, 
                          nullable=False)
 
-    cities = db.relationship(
-        'Recipes',
+    favorites = db.relationship(
+        'Users',
         secondary="favorites"
     )                      
 
@@ -67,12 +67,12 @@ class User(db.Model):
 
 
 
-class Recipe(db.Model):
+# class Recipe(db.Model):
+#     """Re user to fave recipes."""
+#     __tablename__ = 'recipe'
 
-    __tablename__ = 'Recipe'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(50), nullable=False)
 
 
 
@@ -85,11 +85,6 @@ class Favorites(db.Model):
     id = db.Column(
         db.Integer,
         primary_key=True
-    )
-
-    user_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', ondelete='cascade')
     )
 
     recipe_id = db.Column(
