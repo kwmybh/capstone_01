@@ -2,7 +2,7 @@
 
 <body>
 	<div class="container py-3">
-		<nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+		<!-- <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
 			{% if 'user_id' not in session %}
 			<li>
 				<a class="me-3 py-2 text-dark text-decoration-none" href="/register"
@@ -26,6 +26,36 @@
 				>
 			</li>
 			{% endif %}
+		</nav> -->
+
+		<!-- ALT NAV -->
+		<nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+			{% if request.endpoint != None %} {% endif %} {% if not g.user %}
+			<a class="me-3 py-2 text-dark text-decoration-none" href="/register"
+				>Sign up</a
+			>
+			<a class="me-3 py-2 text-dark text-decoration-none" href="/login"
+				>Log in</a
+			>
+			<a class="me-3 py-2 text-dark text-decoration-none" href="/favorites"
+				>Favorites</a
+			>
+			{% else %}
+
+			<a
+				href="/users/{{ g.user.id }}"
+				class="me-3 py-2 text-dark text-decoration-none"
+			>
+				<img src="{{ g.user.image_url }}" alt="{{ g.user.username }}" />
+			</a>
+
+			<a href="/logout" class="me-3 py-2 text-dark text-decoration-none"
+				>Log out</a
+			>
+			<a href="/favorites" class="me-3 py-2 text-dark text-decoration-none"
+				>Favorites</a
+			>
+			{% endif %}
 		</nav>
 
 		<header
@@ -39,7 +69,7 @@
 			"
 		>
 			<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-				<h1 class="display-4 fw-normal">Magic Recipe App</h1>
+				<h1 class="display-4 fw-normal">Smart Recipe App</h1>
 				<p class="fs-5 text-muted">Find Meals For Your Ingredients.</p>
 				<blockquote>
 					Real food doesn't have ingredients, real food is ingredients.<br />

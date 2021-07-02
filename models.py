@@ -29,6 +29,12 @@ class User(db.Model):
     password = db.Column(db.Text, 
                          nullable=False)
 
+    cities = db.relationship(
+        'Recipes',
+        secondary="favorites"
+    )                      
+
+
     # start_register
     @classmethod
     def register(cls, username, pwd):
@@ -58,3 +64,36 @@ class User(db.Model):
         else:
             return False
     # end_authenticate    
+
+
+
+class Recipe(db.Model):
+
+    __tablename__ = 'Recipe'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+
+
+
+
+class Favorites(db.Model):
+    """Mapping user to fave recipes."""
+
+    __tablename__ = 'favorites' 
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', ondelete='cascade')
+    )
+
+    recipe_id = db.Column(
+        db.Integer,
+        db.ForeignKey('recipe.id', ondelete='cascade'),
+        unique=True
+    )
