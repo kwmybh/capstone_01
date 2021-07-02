@@ -1,0 +1,9 @@
+-- psql -U postgres -h localhost
+-- CREATE DATABASE mydatabase
+-- CREATE USER user1 WITH ENCRYPTED PASSWORD 'user1@123'
+-- - \du
+-- GRANT ALL PRIVILEGES ON DATABASE 
+
+CREATE USER myuser WITH PASSWORD '123';
+CREATE ROLE
+CREATE DATABASE mydb WITH OWNER myuser ENCODING= 'UTF8' LC_COLLATE='en_US.uatf8' LC_TYPE ='en_US.utf8';

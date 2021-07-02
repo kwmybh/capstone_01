@@ -1,0 +1,22 @@
+{
+	"meals": [
+		{
+			"idMeal": "52864",
+			"strMeal": "Mushroom & Chestnut Rotolo",
+			"strDrinkAlternate": null,
+			"strCategory": "Vegetarian",
+			"strArea": "British"
+		}
+	]
+}
+
+
+{
+    'meals': [
+    {
+        'strMeal': 'Chick-Fil-A Sandwich',
+        'strMealThumb': 'jpg',
+        'idMeal': '53016'
+    }, 
+    ]
+}
