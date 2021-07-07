@@ -2,62 +2,7 @@
 
 <body>
 	<div class="container py-3">
-		<!-- <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-			{% if 'user_id' not in session %}
-			<li>
-				<a class="me-3 py-2 text-dark text-decoration-none" href="/register"
-					>Register</a
-				>
-			</li>
-			<li>
-				<a class="me-3 py-2 text-dark text-decoration-none" href="/login"
-					>Login</a
-				>
-			</li>
-			{% endif %} {% if 'user_id' in session %}
-			<li>
-				<a class="me-3 py-2 text-dark text-decoration-none" href="/logout"
-					>Logout</a
-				>
-			</li>
-			<li>
-				<a class="me-3 py-2 text-dark text-decoration-none" href="/secret"
-					>Secret</a
-				>
-			</li>
-			{% endif %}
-		</nav> -->
-
-		<!-- ALT NAV -->
-		<nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-			{% if request.endpoint != None %} {% endif %} {% if not g.user %}
-			<a class="me-3 py-2 text-dark text-decoration-none" href="/register"
-				>Sign up</a
-			>
-			<a class="me-3 py-2 text-dark text-decoration-none" href="/login"
-				>Log in</a
-			>
-			<a class="me-3 py-2 text-dark text-decoration-none" href="/favorites"
-				>Favorites</a
-			>
-			{% else %}
-
-			<a
-				href="/users/{{ g.user.id }}"
-				class="me-3 py-2 text-dark text-decoration-none"
-			>
-				<img src="{{ g.user.image_url }}" alt="{{ g.user.username }}" />
-			</a>
-
-			<a href="/logout" class="me-3 py-2 text-dark text-decoration-none"
-				>Log out</a
-			>
-			<a href="/favorites" class="me-3 py-2 text-dark text-decoration-none"
-				>Favorites</a
-			>
-			{% endif %}
-		</nav>
-
+		
 		<header
 			class="
 				d-flex
@@ -70,7 +15,7 @@
 		>
 			<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
 				<h1 class="display-4 fw-normal">Smart Recipe</h1>
-				<p class="fs-5 text-muted">Find Meals For Your Ingredients.</p>
+				<p class="fs-5 text-muted">Want to find a complete meal with only one ingredient?<br> We got your back, Sign up and get started for free!</p>
 				<blockquote>
 					Real food doesn't have ingredients, real food is ingredients.<br />
 					<cite>- Jamie Oliver</cite>
@@ -78,76 +23,28 @@
 			</div>
 		</header>
 
-		<main>
-			<div class="meal-search">
-				<div class="meal-search-box">
-					<input
-						type="text"
-						class="search-control"
-						placeholder="Enter an ingredient"
-						id="search-input"
-					/>
-					<button type="submit" class="search-btn btn" id="search-btn">
-						<i class="fas fa-search"></i>
-					</button>
-				</div>
-			</div>
+		
+		<main class="pricing-header p-3 pb-md-4 mx-auto text-center">
+			
+			{% if request.endpoint != None %} {% endif %} {% if not user %}
+			<a class="me-3 py-2 text-dark text-decoration-none" href="/register"
+				>Sign up</a
+			>
+			<a class="me-3 py-2 text-dark text-decoration-none" href="/login"
+				>Log in</a
+			>
+			
+			{% else %}
 
-			<div class="meal-result text-center">
-				<h2 class="title">Your Search Results:</h2>
-				<div id="meal">
-					<!-- meal item -->
-					<!-- <div class = "meal-item">
-            <div class = "meal-img">
-              <img src = "food.jpg" alt = "food">
-            </div>
-            <div class = "meal-name">
-              <h3>Potato Chips</h3>
-              <a href = "#" class = "recipe-btn">Get Recipe</a>
-            </div>
-          </div> -->
-					<!-- end of meal item -->
-				</div>
-			</div>
-
-			<div class="meal-details">
-				<!-- recipe close btn -->
-				<button
-					type="button"
-					class="btn recipe-close-btn"
-					id="recipe-close-btn"
-				>
-					<i class="fas fa-times"></i>
-				</button>
-
-				<!-- meal content -->
-				<div class="meal-details-content">
-					<!-- <h2 class = "recipe-title">Meals Name Here</h2>
-          <p class = "recipe-category">Category Name</p>
-          <div class = "recipe-instruct">
-            <h3>Instructions:</h3>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quo blanditiis quis accusantium natus! Porro, reiciendis maiores molestiae distinctio veniam ratione ex provident ipsa, soluta suscipit quam eos velit autem iste!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet aliquam voluptatibus ad obcaecati magnam, esse numquam nisi ut adipisci in?</p>
-          </div>
-          <div class = "recipe-meal-img">
-            <img src = "food.jpg" alt = "">
-          </div>
-          <div class = "recipe-link">
-            <a href = "#" target = "_blank">Watch Video</a>
-          </div> -->
-				</div>
-			</div>
+			<a
+				href="/users/{{ user.id }}"
+				class="me-3 py-2 text-dark text-decoration-none"
+			>
+			
+			{% endif %}
 		</main>
-		<footer
-			class="
-				d-flex
-				flex-column flex-md-row
-				align-items-center
-				pb-3
-				mb-4
-				border-bottom
-			"
-		></footer>
+
+
 	</div>
 </body>
 

@@ -112,7 +112,11 @@ function mealRecipeModal(meal) {
 		
            <ul>
 		   	<li> <a href = "${meal.strYoutube}" target = "_blank">Watch Video</a></li>
-		   	<li><a href = "#" target = "favoites">Add To Favorties</a></li>
+			<form method="post" action="favorites">
+				<input type="hidden" name="mealName" value="${meal.strMeal}"/>
+				<input type="hidden" name="mealInstruction" value="${meal.strInstructions}"/>
+				<button type="submit">Add to favorites</button>
+			</form>
 		   </ul>
         </div>
     `;

@@ -29,12 +29,16 @@ class User(db.Model):
     password = db.Column(db.Text, 
                          nullable=False)
 
-    favorites = db.relationship(
-        'users',
-        secondary="favorites"
-    )                      
-
-
+    #favorites = db.relationship(
+    #    'Favorites',
+    #    backref="user"
+    #)              
+            
+    recipes = db.relationship(
+        'Recipe',
+        secondary="favorites",
+        backref='favorited_users',
+    )           
     # start_register
     @classmethod
     def register(cls, username, pwd):
@@ -43,8 +47,9 @@ class User(db.Model):
         hashed = bcrypt.generate_password_hash(pwd)
         # turn bytestring into normal (unicode utf8) string
         hashed_utf8 = hashed.decode("utf8")
-
+        print(username +"   "+hashed_utf8)
         # return instance of user w/username and hashed pwd
+        # add favorites
         return cls(username=username, password=hashed_utf8)
     # end_register
 
@@ -67,12 +72,13 @@ class User(db.Model):
 
 
 
-# class Recipe(db.Model):
-#     """Re user to fave recipes."""
-#     __tablename__ = 'recipe'
+class Recipe(db.Model):
+    """Re user to fave recipes."""
+    __tablename__ = 'recipe'
 
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(50), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    text = db.Column(db.Text, nullable=False)
 
 
 
@@ -87,8 +93,13 @@ class Favorites(db.Model):
         primary_key=True
     )
 
-    favorites_id = db.Column(
+    user_id = db.Column(
         db.Integer,
         db.ForeignKey('users.id', ondelete='cascade'),
+        unique=True
+    )
+    recipe_id = db.Column(
+        db.Integer,
+        db.ForeignKey('recipe.id', ondelete='cascade'),
         unique=True
     )

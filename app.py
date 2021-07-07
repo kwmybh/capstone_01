@@ -1,9 +1,9 @@
 """Example flask app that stores passwords hashed with Bcrypt. Yay!"""
 
-from flask import Flask, render_template, redirect, session, flash
+from flask import Flask, render_template, redirect, session, flash,request
 from flask_assets import Environment, Bundle
 from flask_debugtoolbar import DebugToolbarExtension
-from models import connect_db, db, User, Favorites
+from models import connect_db, db, User, Favorites, Recipe
 from forms import RegisterForm, LoginForm
 
 
@@ -22,16 +22,20 @@ app.config["SECRET_KEY"] = "abc123"
 
 
 connect_db(app)
+db.drop_all()
 db.create_all()
 
-# toolbar = DebugToolbarExtension(app)
+toolbar = DebugToolbarExtension(app)
 
 
 @app.route("/")
 def homepage():
     """Show homepage with links to site areas."""
-
-    return render_template("index.html")
+    if "user_id" in session:
+        userid = session["user_id"]
+        return redirect(f"/homepage/{userid}")
+    else:
+        return render_template("index.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -45,13 +49,14 @@ def register():
         pwd = form.password.data
 
         user = User.register(name, pwd)
+        
         db.session.add(user)
         db.session.commit()
 
         session["user_id"] = user.id
 
-        # on successful login, redirect to secret page
-        return redirect("/favorites")
+        # on successful login, redirect to recipe_search page
+        return redirect(f"/homepage/{user.id}")
 
     else:
         return render_template("register.html", form=form)
@@ -72,16 +77,25 @@ def login():
 
         if user:
             session["user_id"] = user.id  # keep logged in
-            return redirect("/favorites")
+            return redirect(f"/homepage/{user.id}")
 
         else:
             form.username.errors = ["Bad name/password"]
 
     return render_template("login.html", form=form)
-# end-login    
+# end-login  
+  
+
+@app.route("/homepage/<int:id>")
+def userpage(id):
+    if "user_id" not in session:
+        flash("You must be logged in to view!")
+        return redirect("/")
+
+    return render_template("recipe_search.html")
 
 
-@app.route("/favorites")
+@app.route("/favorites", methods=["GET"])
 def favorites():
     """Example hidden page for logged-in users only."""
 
@@ -89,13 +103,29 @@ def favorites():
         flash("You must be logged in to view!")
         return redirect("/")
 
-        # alternatively, can return HTTP Unauthorized status:
-        #
-        # from werkzeug.exceptions import Unauthorized
-        # raise Unauthorized()
+    userid=session["user_id"]
+    user=User.query.get_or_404(userid)
 
-    else:
-        return render_template("favorites.html")
+    recipe_name=request.form.get("mealName")
+    recipe_instructions=request.form.get("mealInstruction")
+    # SEARCH IF THE RECIPE NAME IS ALREADY IN THE TABLE AND DON'T ADD IT IN THIS CASE, JUST USE IT
+    recipe=Recipe(name=recipe_name,
+                text=recipe_instructions)
+
+    # ADD THIS NEWLY CREATE RECIPE TO THE USERS recipes array the user class
+    
+    return redirect(f"/favorites/{userid}")
+
+
+@app.route("/favorites/<int:id>")
+def userfavorites(id):
+    if "user_id" not in session:
+        flash("You must be logged in to view!")
+        return redirect("/")
+
+    user=User.query.get_or_404(id)
+    # IN favorites html render the recipes array that is in the user object to the screen and offer the possibility to remove a favorited recipe
+    return render_template("favorites.html",user=user)
 
 
 @app.route("/logout")
@@ -105,3 +135,7 @@ def logout():
     session.pop("user_id")
 
     return redirect("/")
+
+
+
+
