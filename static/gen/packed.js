@@ -10,44 +10,6 @@ recipeCloseBtn.addEventListener('click', () => {
 	mealDetailsContent.parentElement.classList.remove('showRecipe');
 });
 
-// // get meal list that matches with the ingredients
-// function getMealList() {
-// 	let searchInputTxt = document.getElementById('search-input').value.trim();
-// 	fetch(
-// 		`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInputTxt}`
-// 	)
-// 		.then((response) => response.json())
-// 		.then((data) => {
-// 			let html = '';
-// 			if (data.meals) {
-// 				data.meals.forEach((meal) => {
-// 					html += `
-//                     <div class = "meal-item" data-id = "${meal.idMeal}">
-//                     <div class="col">
-//                         <div class="card mb-4 rounded-3 shadow-sm">
-//                             <div class="card-body">
-//                                 <div class = "meal-img">
-//                                     <img src = "${meal.strMealThumb}" width="100%" alt = "food">
-//                                 </div>
-//                                 <div class = "meal-name">
-//                                     <p>${meal.strMeal}</p>
-//                                     <a href = "#" class = "recipe-btn">Get Recipe</a>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>`;
-// 				});
-// 				mealList.classList.remove('notFound');
-// 			} else {
-// 				html = "Sorry, we didn't find any meal!";
-// 				mealList.classList.add('notFound');
-// 			}
-
-// 			mealList.innerHTML = html;
-// 		});
-// }
-
 // get meal list that matches with the ingredients
 function getMealList() {
 	let searchInputTxt = document.getElementById('search-input').value.trim();
@@ -110,14 +72,14 @@ function mealRecipeModal(meal) {
         </div>
         <div class = "recipe-link">
 		
-           <ul>
-		   	<li> <a href = "${meal.strYoutube}" target = "_blank">Watch Video</a></li>
-			<form method="post" action="favorites">
-				<input type="hidden" name="mealName" value="${meal.strMeal}"/>
-				<input type="hidden" name="mealInstruction" value="${meal.strInstructions}"/>
-				<button type="submit">Add to favorites</button>
-			</form>
-		   </ul>
+			<ul>
+				<li> <a class="btn" href = "${meal.strYoutube}" target = "_blank"> Watch on YouTube</li>
+				<form method="post" action="favorites">
+					<input type="hidden" name="mealName" value="${meal.strMeal}"/>
+					<input type="hidden" name="mealInstruction" value="${meal.strInstructions}"/>
+					<li> <a class="btn" type="submit">Save To Favorites</button></li>
+				</form>
+			</ul>
         </div>
     `;
 	mealDetailsContent.innerHTML = html;

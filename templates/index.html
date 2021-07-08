@@ -37,9 +37,14 @@
 			{% else %}
 
 			<a
-				href="/users/{{ user.id }}"
+				href="/users/{{ g.user.id }}"
 				class="me-3 py-2 text-dark text-decoration-none"
 			>
+			<li>
+				<a href="/users/{{ g.user.id }}">
+				 
+				</a>
+			  </li>
 			
 			{% endif %}
 		</main>
