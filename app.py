@@ -23,7 +23,7 @@ app.config["SECRET_KEY"] = "abc123"
 
 
 connect_db(app)
-# db.drop_all()
+db.drop_all()
 db.create_all()
 
 toolbar = DebugToolbarExtension(app)
@@ -126,7 +126,7 @@ def favorites_add():
     
     form = RegisterForm()
 
-    # ADD THIS NEWLY CREATED RECIPE TO THE USERS recipes array to the user class
+    # ADD THIS NEWLY CREATED RECIPE TO THE recipes array to the user class
     if form.validate_on_submit():
         recipe = Recipe(name = recipe_name,
                     text = recipe_instructions)

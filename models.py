@@ -29,10 +29,10 @@ class User(db.Model):
     password = db.Column(db.Text, 
                          nullable=False)
 
-    #favorites = db.relationship(
-    #    'Favorites',
-    #    backref="user"
-    #)              
+    favorites = db.relationship(
+       'Favorites',
+       backref="user"
+    )              
             
     recipes = db.relationship(
         'Recipe',

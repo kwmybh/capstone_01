@@ -1,11 +1,16 @@
 const searchBtn = document.getElementById('search-btn');
 const mealList = document.getElementById('meal');
 const mealDetailsContent = document.querySelector('.meal-details-content');
+const favoritesBtn = document.getElementById('favorites-btn');
 const recipeCloseBtn = document.getElementById('recipe-close-btn');
 
 // event listeners
 searchBtn.addEventListener('click', getMealList);
 mealList.addEventListener('click', getMealRecipe);
+favoritesBtn.addEventListener('click', () => {
+	console.log('HITT');
+	mealDetailsContent.parentElement.classList.append('favorites');
+});
 recipeCloseBtn.addEventListener('click', () => {
 	mealDetailsContent.parentElement.classList.remove('showRecipe');
 });
