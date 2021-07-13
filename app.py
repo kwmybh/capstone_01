@@ -112,7 +112,7 @@ def logout():
 def favorites_post():
 
     if "user_id" not in session:
-        flash("You must be logged in to view!")
+        flash("You must be logged in to view!", "danger")
         return redirect("/")
 
     userid = session["user_id"]
@@ -126,8 +126,8 @@ def favorites_post():
     # CHECK THE RECIPE TABLE IF IT CONTAINS THE FAVORITED RECIPE
     existing_recipe = Recipe.query.filter_by(name=recipe_name).first()
     if  existing_recipe :
-        session['username'] = existing_recipe.username
-        flash('Recipe already favorited')
+        session['name'] = existing_recipe.name
+        flash('Recipe already favorited','danger')
             # IF TRUE
             #DON'T ADD IT TO THE RECIPTE TABLE
             #ADD IT TO THE FAVORITES OBJECT OF THIS USER
@@ -136,22 +136,28 @@ def favorites_post():
             #ADD IT TO THE RECIPE TABLE
              #ADD IT TO THE FAVORITES OBJECT OF THIS USER
     else:
-        user
-        db.session.add(recipe_name)
-        # db.session.add_all([recipe_name, recipe_instructions, recipe_img])
+        user.name = recipe_name
+        user.text = recipe_instructions
+        # user.recipe.img = recipe_img
+        # user.recipe.vid = recipe_vid
+        
+        # db.session.add(recipe_name)
+        # db.session.add_all([recipe_name, recipe_instructions, recipe_img, recipe_vid])
         db.session.commit()
+        flash("A new recipe has been added to Favorites!", "success")
            
 
     #print(recipe_name,recipe_instructions)
 
-    return redirect("/favorites")
+    return redirect(f"/favorites/{user.id}")
+    
 
 @app.route("/favorites", methods=["GET"])
 def favorites_view():
     """display favorites."""
 
     if "user_id" not in session:
-        flash("You must be logged in to view!")
+        flash("You must be logged in to view!", "danger")
         return redirect("/")
     
     userid = session["user_id"]
