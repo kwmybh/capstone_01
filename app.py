@@ -1,7 +1,5 @@
 from flask import Flask, render_template, redirect, session, flash, request, g
 from flask_assets import Environment, Bundle
-# import fontawesome as fa
-# from flask_fontawesome import FontAwesome
 from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Favorites, Recipe
 from forms import RegisterForm, LoginForm
@@ -9,7 +7,6 @@ from forms import RegisterForm, LoginForm
 
 app = Flask(__name__)
 assets = Environment(app)
-# fa = FontAwesome(app)
 
 js = Bundle('script.js', output='gen/packed.js')
 assets.register('js_all', js)
@@ -23,7 +20,7 @@ app.config["SECRET_KEY"] = "abc123"
 
 
 connect_db(app)
-db.drop_all()
+# db.drop_all()
 db.create_all()
 
 toolbar = DebugToolbarExtension(app)
@@ -34,9 +31,17 @@ def homepage():
     """Show homepage with links to site areas."""
     if "user_id" in session:
         userid = session["user_id"]
-        return redirect(f"/homepage/{userid}")
+        return redirect(f"/homepage")
     else:
         return render_template("index.html")
+
+@app.route("/homepage")
+def userpage():
+    if "user_id" not in session:
+        flash("You must be logged in to view!")
+        return redirect("/")
+
+    return render_template("recipe_search.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -57,7 +62,7 @@ def register():
         session["user_id"] = user.id
 
         # on successful login, redirect to recipe_search page
-        return redirect(f"/homepage/{user.id}")
+        return redirect(f"/homepage")
 
     else:
         return render_template("register.html", form=form)
@@ -78,7 +83,7 @@ def login():
 
         if user:
             session["user_id"] = user.id  # keep logged in
-            return redirect(f"/homepage/{user.id}")
+            return redirect(f"/homepage")
 
         else:
             form.username.errors = ["Bad name/password"]
@@ -96,55 +101,75 @@ def logout():
 
 
 
-@app.route("/homepage/<int:id>")
-def userpage(id):
-    if "user_id" not in session:
-        flash("You must be logged in to view!")
-        return redirect("/")
-
-    return render_template("recipe_search.html")
 
 
 ##############################################################################
 # Favorites routes:
 
-@app.route("/favorites", methods=["GET", "POST"])
-def favorites_add():
+
+
+@app.route("/favorites",methods=["POST"])
+def favorites_post():
+
+    if "user_id" not in session:
+        flash("You must be logged in to view!")
+        return redirect("/")
+
+    userid = session["user_id"]
+    user = User.query.get_or_404(userid)
+    
+    recipe_name = request.form.get("mealName")
+    recipe_instructions = request.form.get("mealInstruction")
+    recipe_img = request.form.get("mealImg")
+    recipe_vid = request.form.get("mealVid")
+
+    # CHECK THE RECIPE TABLE IF IT CONTAINS THE FAVORITED RECIPE
+    existing_recipe = Recipe.query.filter_by(name=recipe_name).first()
+    if  existing_recipe :
+        session['username'] = existing_recipe.username
+        flash('Recipe already favorited')
+            # IF TRUE
+            #DON'T ADD IT TO THE RECIPTE TABLE
+            #ADD IT TO THE FAVORITES OBJECT OF THIS USER
+        # IF FALSE
+       
+            #ADD IT TO THE RECIPE TABLE
+             #ADD IT TO THE FAVORITES OBJECT OF THIS USER
+    else:
+        user
+        db.session.add(recipe_name)
+        # db.session.add_all([recipe_name, recipe_instructions, recipe_img])
+        db.session.commit()
+           
+
+    #print(recipe_name,recipe_instructions)
+
+    return redirect("/favorites")
+
+@app.route("/favorites", methods=["GET"])
+def favorites_view():
     """display favorites."""
 
     if "user_id" not in session:
         flash("You must be logged in to view!")
         return redirect("/")
-
-    userid = ["user_id"]
+    
+    userid = session["user_id"]
     user = User.query.get_or_404(userid)
 
-    recipe_name = request.form.get("mealName")
-    recipe_instructions = request.form.get("mealInstruction")
-
-    # SEARCH IF THE RECIPE NAME IS ALREADY IN THE TABLE AND DON'T ADD IT IN THIS CASE, JUST USE IT
-    
-    form = RegisterForm()
-
-    # ADD THIS NEWLY CREATED RECIPE TO THE recipes array to the user class
-    if form.validate_on_submit():
-        recipe = Recipe(name = recipe_name,
-                    text = recipe_instructions)
-        g.user.favorites.append(recipe)
-        db.session.commit()
-
-    return redirect(f"/favorites/{userid}")
-
-
-@app.route("/favorites/<int:id>")
-def favorties_show(id):
-    if "user_id" not in session:
-        flash("You must be logged in to view!")
-        return redirect("/")
-
-    user = User.query.get_or_404(id)
-    # IN favorites html render the recipes array that is in the user object to the screen and offer the possibility to remove a favorited recipe
+    # CORRECTLY RENDER RECIPES IN FAVORITES HTML
     return render_template("favorites.html", user=user)
+    # return render_template("favorites.html", values=user.query.all())
+
+#@app.route("/favorites/<int:id>")
+#def favorties_show(id):
+#    if "user_id" not in session:
+#        flash("You must be logged in to view!")
+#        return redirect("/")
+#
+#    user = User.query.get_or_404(id)
+#    # IN favorites html render the recipes array that is in the user object to the screen and offer the possibility to remove a favorited recipe
+#    return render_template("favorites.html", user=user)
 
 # End of Favorites routes:
 ##############################################################################

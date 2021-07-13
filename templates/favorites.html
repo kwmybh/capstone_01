@@ -3,9 +3,13 @@
 	<div class="col-md-6">
 		<ul class="list-group no-hover" id="favorites">
 			<li class="list-group-item">
-				<a href="{{ url_for(user_id=favorites.user.id) }}"> </a>
+				<a href="#"> {{user.username}}</a>
 			</li>
 		</ul>
+		<li><p>{user.recipe.id}}</p></li>
+		<li><p>{user.recipe.name}}</p></li>
+		<li><p>{user.recipe.text}}</p></li>
+		<li><p>{user.recipe.img}}</p></li>
 	</div>
 </div>
 

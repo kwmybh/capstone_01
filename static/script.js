@@ -15,6 +15,13 @@ recipeCloseBtn.addEventListener('click', () => {
 	mealDetailsContent.parentElement.classList.remove('showRecipe');
 });
 
+//document.querySelector(".formFavorite").addEventListener("submit",(e)=>{
+//	e.preventDefault();
+//	let recipeName=e.target.querySelector("#mealName").value;
+//	let recipeText=e.target.querySelector("#mealInstruction").value;
+//	
+//	
+//})
 // get meal list that matches with the ingredients
 function getMealList() {
 	let searchInputTxt = document.getElementById('search-input').value.trim();
@@ -79,10 +86,12 @@ function mealRecipeModal(meal) {
 		
 			<ul>
 				<li> <a class="btn" href = "${meal.strYoutube}" target = "_blank"> Watch on YouTube</li>
-				<form method="post" action="favorites">
+				<form method="post" action="/favorites" class="formFavorite">
 					<input type="hidden" name="mealName" value="${meal.strMeal}"/>
 					<input type="hidden" name="mealInstruction" value="${meal.strInstructions}"/>
-					<li> <a class="btn" type="submit">Save To Favorites</button></li>
+					<input type="hidden" name="mealVid" value="${meal.strYoutube}"/>
+					<input type="hidden" name="mealImg" value="${meal.strMealThumb}"/>
+					<button class="btn" type="submit">Save To Favorites</button>
 				</form>
 			</ul>
         </div>

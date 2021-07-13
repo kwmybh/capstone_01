@@ -27,12 +27,7 @@ class User(db.Model):
                          unique=True)
 
     password = db.Column(db.Text, 
-                         nullable=False)
-
-    favorites = db.relationship(
-       'Favorites',
-       backref="user"
-    )              
+                         nullable=False)          
             
     recipes = db.relationship(
         'Recipe',
@@ -79,7 +74,8 @@ class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     text = db.Column(db.Text, nullable=False)
-
+    img = db.Column(db.Text, nullable=False)
+    vid = db.Column(db.Text, nullable=False)
 
 
 
