@@ -1,18 +1,25 @@
 {% extends 'base.html' %} {% block content %}
 <div class="row justify-content-center">
-	<div class="col-md-6">
-		<ul class="list-group no-hover" id="favorites">
-			<li class="list-group-item">
-				<a href="#"> {{user.username}}</a>
-			</li>
-		</ul>
-
-		{% for recipe in recipes %}
-		<li><p>{{recipe.name}}</p></li>
-		<!-- <li><p>{{user.favorites.text}}</p></li>
-		<li><p>{{user.favorites.img}}</p></li>
-		<li><p>{{user.favorites.vid}}</p></li> -->
-		{% endfor %}
+	<div class="meal-result">
+		<h2 class="title">{{user.username}}'s favorites</h2>
+		
+		<div id="meal">
+			<!-- meal item -->
+			
+			<div class="meal-item text-center">
+				<div class="meal-img">
+					<img src="{{post_favorite.img}}" alt="" />
+				</div>
+				<div class="meal-name">
+					<h3>{{post_favorite.name}}</h3>
+					<a class="recipe-btn" href = "{{post_favorite.vid}}" target = "_blank"> Watch on YouTube
+				</div>
+				
+			</div>
+	
+			<!-- end of meal item -->
+			
+		</div>
 	</div>
 </div>
 

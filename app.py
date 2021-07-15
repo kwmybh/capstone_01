@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, session, flash, request, g
+from flask import Flask, render_template, redirect, session, flash, request, g, url_for
 from flask_assets import Environment, Bundle
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.sql.operators import exists
@@ -132,11 +132,11 @@ def favorites_post():
         db.session.add(post_favorite)
         db.session.commit()
         flash("A new recipe has been added to Favorites!", "success")
-    return redirect("/favorites")
+    return redirect(url_for("homepage"))
     
 
-@app.route("/favorites", methods=["GET"])
-def favorites_view():
+@app.route("/favorites/<int:userid>", methods=["GET"])
+def favorites_view(userid):
     """display favorites."""
 
     if "user_id" not in session:
@@ -147,7 +147,9 @@ def favorites_view():
     user = User.query.get_or_404(userid)
 
     # CORRECTLY RENDER RECIPES IN FAVORITES HTML
-    return render_template("favorites.html", user=user)
+    post_favorite = Recipe.query.filter_by(id=userid).one()
+
+    return render_template("favorites.html", user=user, post_favorite=post_favorite)
     # return render_template("favorites.html", values=user.query.all())
 
 
