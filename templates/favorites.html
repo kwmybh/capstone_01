@@ -7,10 +7,12 @@
 			</li>
 		</ul>
 
+		{% for recipe in recipes %}
 		<li><p>{{recipe.name}}</p></li>
-		<li><p>{{recipe.text}}</p></li>
-		<li><p>{{user.recipe.img}}</p></li>
-		<li><p>{{user.recipe.vid}}</p></li>
+		<!-- <li><p>{{user.favorites.text}}</p></li>
+		<li><p>{{user.favorites.img}}</p></li>
+		<li><p>{{user.favorites.vid}}</p></li> -->
+		{% endfor %}
 	</div>
 </div>
 

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, session, flash, request, g
 from flask_assets import Environment, Bundle
 from flask_debugtoolbar import DebugToolbarExtension
+from sqlalchemy.sql.operators import exists
 from models import connect_db, db, User, Favorites, Recipe
 from forms import RegisterForm, LoginForm
 
@@ -123,33 +124,15 @@ def favorites_post():
     recipe_img = request.form.get("mealImg")
     recipe_vid = request.form.get("mealVid")
 
-    # CHECK THE RECIPE TABLE IF IT CONTAINS THE FAVORITED RECIPE
-    existing_recipe = Recipe.query.filter_by(name=recipe_name).first()
-    if  existing_recipe :
-        session['name'] = existing_recipe.name
-        flash('Recipe already favorited','danger')
-            # IF TRUE
-            #DON'T ADD IT TO THE RECIPTE TABLE
-            #ADD IT TO THE FAVORITES OBJECT OF THIS USER
-        # IF FALSE
-       
-            #ADD IT TO THE RECIPE TABLE
-             #ADD IT TO THE FAVORITES OBJECT OF THIS USER
+    favorited = db.session.query(Recipe.name).filter_by(name = recipe_name).first() is not None
+    if  favorited in session:
+        flash('Recipe already favorited','danger')           
     else:
-        user.name = recipe_name
-        user.text = recipe_instructions
-        # user.recipe.img = recipe_img
-        # user.recipe.vid = recipe_vid
-        
-        # db.session.add(recipe_name)
-        # db.session.add_all([recipe_name, recipe_instructions, recipe_img, recipe_vid])
+        post_favorite = Recipe(name=recipe_name, img=recipe_img, vid = recipe_vid) 
+        db.session.add(post_favorite)
         db.session.commit()
         flash("A new recipe has been added to Favorites!", "success")
-           
-
-    #print(recipe_name,recipe_instructions)
-
-    return redirect(f"/favorites/{user.id}")
+    return redirect("/favorites")
     
 
 @app.route("/favorites", methods=["GET"])
@@ -167,15 +150,6 @@ def favorites_view():
     return render_template("favorites.html", user=user)
     # return render_template("favorites.html", values=user.query.all())
 
-#@app.route("/favorites/<int:id>")
-#def favorties_show(id):
-#    if "user_id" not in session:
-#        flash("You must be logged in to view!")
-#        return redirect("/")
-#
-#    user = User.query.get_or_404(id)
-#    # IN favorites html render the recipes array that is in the user object to the screen and offer the possibility to remove a favorited recipe
-#    return render_template("favorites.html", user=user)
 
 # End of Favorites routes:
 ##############################################################################
