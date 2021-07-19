@@ -32,7 +32,7 @@ class User(db.Model):
     recipe = db.relationship(
         'Recipe',
         secondary="favorites",
-        backref='favorited_users',
+        backref='users',
     )     
        
     
@@ -94,10 +94,10 @@ class Favorites(db.Model):
     user_id = db.Column(
         db.Integer,
         db.ForeignKey('users.id', ondelete='cascade'),
-        unique=True
+        
     )
     recipe_id = db.Column(
         db.Integer,
         db.ForeignKey('recipe.id', ondelete='cascade'),
-        unique=True
+        
     )

@@ -41,8 +41,9 @@ def userpage():
     if "user_id" not in session:
         flash("You must be logged in to view!")
         return redirect("/")
-
-    return render_template("recipe_search.html")
+    userid = session["user_id"]
+    user= User.query.get_or_404(userid)
+    return render_template("recipe_search.html",recipes=user.recipe)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -124,19 +125,22 @@ def favorites_post():
     recipe_img = request.form.get("mealImg")
     recipe_vid = request.form.get("mealVid")
 
-    favorited = db.session.query(Recipe.name).filter_by(name = recipe_name).first() is not None
-    if  favorited in session:
-        flash('Recipe already favorited','danger')           
+    recipe_exists = db.session.query(Recipe.name).filter_by(name = recipe_name).first() is not None
+    if  recipe_exists:
+        #flash('Recipe already favorited','danger')  
+        user.recipe.append(Recipe.query.filter_by(name = recipe_name).first())  
+        db.session.commit()   
     else:
-        post_favorite = Recipe(name=recipe_name, img=recipe_img, vid = recipe_vid) 
+        post_favorite = Recipe(name=recipe_name, img=recipe_img, text=recipe_instructions, vid = recipe_vid) 
+        user.recipe.append(post_favorite)    
         db.session.add(post_favorite)
         db.session.commit()
         flash("A new recipe has been added to Favorites!", "success")
     return redirect(url_for("homepage"))
     
 
-@app.route("/favorites/<int:userid>", methods=["GET"])
-def favorites_view(userid):
+@app.route("/favorites", methods=["GET"])
+def favorites_view():
     """display favorites."""
 
     if "user_id" not in session:
@@ -147,9 +151,8 @@ def favorites_view(userid):
     user = User.query.get_or_404(userid)
 
     # CORRECTLY RENDER RECIPES IN FAVORITES HTML
-    post_favorite = Recipe.query.filter_by(id=userid).one()
-
-    return render_template("favorites.html", user=user, post_favorite=post_favorite)
+    #post_favorite = Recipe.query.filter_by(id=userid).one()
+    return render_template("favorites.html", user=user)
     # return render_template("favorites.html", values=user.query.all())
 
 

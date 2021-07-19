@@ -1,25 +1,46 @@
 {% extends 'base.html' %} {% block content %}
-<div class="row justify-content-center">
-	<div class="meal-result">
+
+<nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto float-right">
+	<a class="me-3 py-2 text-dark text-decoration-none" href="/homepage"
+		>Back to Search</a
+	>
+	<a class="me-3 py-2 text-dark text-decoration-none" href="/logout">Log Out</a>
+</nav>
+
+<header
+	class="
+		d-flex
+		flex-column flex-md-row
+		align-items-center
+		pb-3
+		mb-4
+		border-bottom
+	"
+>
+	<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+		<h1 class="display-4 fw-normal">Smart Recipe</h1>
+		<!-- <p class="fs-5 text-muted">Want to find a complete meal with only one ingredient?<br> We got your back, Sign up and get started for free!</p> -->
 		<h2 class="title">{{user.username}}'s favorites</h2>
-		
-		<div id="meal">
-			<!-- meal item -->
-			
-			<div class="meal-item text-center">
-				<div class="meal-img">
-					<img src="{{post_favorite.img}}" alt="" />
-				</div>
-				<div class="meal-name">
-					<h3>{{post_favorite.name}}</h3>
-					<a class="recipe-btn" href = "{{post_favorite.vid}}" target = "_blank"> Watch on YouTube
-				</div>
-				
+	</div>
+</header>
+
+<div class="meal-result">
+	<div id="meal">
+		<!-- meal item -->
+		{% for recipe in user.recipe %}
+		<div class="meal-item text-center">
+			<div class="meal-img">
+				<img src="{{recipe.img}}" alt="" />
 			</div>
-	
-			<!-- end of meal item -->
-			
+			<div class="meal-name">
+				<h3>{{recipe.name}}</h3>
+				<a class="recipe-btn" href="{{recipe.vid}}" target="_blank"
+					><i class="fab fa-youtube fa-lg"></i
+				></a>
+			</div>
 		</div>
+		{% endfor %}
+		<!-- end of meal item -->
 	</div>
 </div>
 
