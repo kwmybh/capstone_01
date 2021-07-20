@@ -22,15 +22,16 @@
 				</blockquote>
 			</div>
 		</header>
-
+ 
 		
 		<main class="pricing-header p-3 pb-md-4 mx-auto text-center">
 			
 			{% if request.endpoint != None %} {% endif %} {% if not user %}
-			<a class="me-3 py-2 text-dark text-decoration-none" href="/register"
+			<h3>Start Here!</h3>
+			<a class="recipe-btn" href="/register"
 				>Sign up</a
 			>
-			<a class="me-3 py-2 text-dark text-decoration-none" href="/login"
+			<a class="recipe-btn" href="/login"
 				>Log in</a
 			>
 			

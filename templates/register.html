@@ -22,10 +22,8 @@
 	</div>
 </header>
 
-<div class="container text-center">
+<div class="container">
 	<h1 class="display-4">Register</h1>
-	<p class="lead">Register for our site.</p>
-
 	<form method="POST">
 		{{ form.hidden_tag() }} {% for field in form if field.widget.input_type !=
 		'hidden' %}
