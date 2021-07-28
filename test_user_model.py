@@ -17,7 +17,7 @@ from flask_bcrypt import Bcrypt
 # before we import our app, since that will have already
 # connected to the database
 
-os.environ['DATABASE_URL'] = "postgresql:///smart_recipe_db"
+
 
 # Now we can import app
 
@@ -25,7 +25,7 @@ from app import app
 
 # This is a bit of hack, but don't use Flask DebugToolbar
 app.config['DEBUG_TB_HOSTS'] = ['dont-show-debug-toolbar']
-
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:H%40L!M@localhost:5432/smart_recipe_db_test"
 # Make Flask errors be real errors, rather than HTML pages with error info
 app.config['TESTING'] = True
 
@@ -37,22 +37,22 @@ db.create_all()
 bcrypt = Bcrypt()
 
 USER_DATA = {
-    "email":"test@test.com",
+    #"email":"test@test.com",
     "username":"testuser",
-    "password":"HASHED_PASSWORD"
+    "pwd":"HASHED_PASSWORD"
 }
 
 USER_DATA_2 = {
-    "email":"test2@test.com",
+    #"email":"test2@test.com",
     "username":"testuser2",
-    "password":"HASHED_PASSWORD2"
+    "pwd":"HASHED_PASSWORD2"
 }
 
 
 USER_DATA_3 = {
-    "email":"test3@test.com",
+    #"email":"test3@test.com",
     "username":"testuser3",
-    "password":"HASHED_PASSWORD3"
+    "pwd":"HASHED_PASSWORD3"
 }
 
 class UserModelTestCase(TestCase):
@@ -67,9 +67,10 @@ class UserModelTestCase(TestCase):
         
         self.client = app.test_client()
 
-        u = User(**USER_DATA)
-        u2 = User(**USER_DATA_2)
-
+        #u = User(**USER_DATA)
+        #u2 = User(**USER_DATA_2)
+        u = User.register(**USER_DATA)
+        u2 = User.register(**USER_DATA_2)
         
         db.session.add(u)
         db.session.add(u2)
@@ -80,7 +81,6 @@ class UserModelTestCase(TestCase):
 
     def tearDown(self):
         """ Clean up fouled transactions """
-
         db.session.rollback()
 
     def test_user_model(self):
@@ -88,7 +88,7 @@ class UserModelTestCase(TestCase):
 
         # User should have no messages, no liked messages & no followers
         # TODO: write more specific test (don't test characteristic, test the item itself, like an empty list)
-        self.assertEqual(len(self.user.favorites), 0)
+        #self.assertEqual(len(self.user.favorites), 0)
         self.assertEqual(len(self.user.recipe), 0)
         self.assertEqual(
             str(self.user), 
@@ -99,19 +99,23 @@ class UserModelTestCase(TestCase):
         user2 and detect when user1 is not following user2? """
 
         # test if is_following detects when user1 is following user2
-        self.user.favorites.append(self.user2)
+        #self.user.favorites.append(self.user2)
+        self.user.recipe.append(self.user2)
         # TODO: test the list of is_following itself
         self.assertTrue(self.user.is_following(self.user2))
 
         # test if is_following detects when user1 is not following user2
-        self.user.favorites.remove(self.user2)
+        #self.user.favorites.remove(self.user2)
+        self.user.recipe.remove(self.user2)
         self.assertFalse(self.user.is_following(self.user2))
 
     def test_user_signup(self):
         """ Does User.signup() successfuly create a new user given valid 
         credentials """
 
-        new_user = User.signup(**USER_DATA_3)
+        #new_user = User.signup(**USER_DATA_3)
+        new_user = User.register(**USER_DATA_3)
+        db.session.add(new_user)
         db.session.commit()
 
         self.assertIsInstance(new_user.id, int)
@@ -125,14 +129,14 @@ class UserModelTestCase(TestCase):
         USER_DATA_3.pop('username')
         # TODO: note that we can also do try/ except in tests
         with self.assertRaises(TypeError):
-            new_user = User.signup(**USER_DATA_3)
+            new_user = User.register(**USER_DATA_3)
 
         self.assertEqual(User.query.count(), 2)
 
         # check that signup fails if unique validation fails
         USER_DATA_3['username'] = USER_DATA['username']
         with self.assertRaises(IntegrityError):
-            new_user = User.signup(**USER_DATA_3)
+            new_user = User.register(**USER_DATA_3)
             db.session.commit()
 
         # in a transaction, if one fails, all after will fails, can be reset with db.session.rollback()
