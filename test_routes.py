@@ -56,28 +56,28 @@ class RouteTest(TestCase):
             self.assertIn('<div class="pricing-header p-3 pb-md-4 mx-auto text-center">', html)
 
 
-    def test_login(self):
-        with app.test_client() as client:
-            response = self.client.post('/login', data = dict(
-                                username = 'username',
-                                pwd = 'password'),
-                                follow_redirects = True
-                                )
-            self.assertIn(b'Start Here!')
+    # def test_login(self):
+    #     with app.test_client() as client:
+    #         response = self.client.post('/login', data = dict(
+    #                             username = 'username',
+    #                             pwd = 'password'),
+    #                             follow_redirects = True
+    #                             )
+    #         self.assertIn(b'Start Here!')
 
 
-    def test_logout(self):
-        with app.test_client() as client:
-            self.client.post('/login', data = dict(
-                                    username = 'username',
-                                    pwd = 'password'),
-                                    follow_redirects = True
-                                    )
-            res = self.client.get('/logout', follow_redirects = True)
-            html = res.get_data(as_text = True)
+    # def test_logout(self):
+    #     with app.test_client() as client:
+    #         self.client.post('/login', data = dict(
+    #                                 username = 'username',
+    #                                 pwd = 'password'),
+    #                                 follow_redirects = True
+    #                                 )
+    #         res = self.client.get('/logout', follow_redirects = True)
+    #         html = res.get_data(as_text = True)
 
-            self.assertEqual(res.status_code, 200)
-            self.assertEquals('<h3>Start Here!</h3>', html)
+    #         self.assertEqual(res.status_code, 200)
+    #         self.assertEquals('<h3>Start Here!</h3>', html)
         
      
     #  test_register
