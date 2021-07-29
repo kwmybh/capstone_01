@@ -24,7 +24,7 @@ This is a full-stack app that uses the following frameworks/libraries/APIs:
 
 * Python
 * Flask
-* freemealDB API
+* https://www.themealdb.com/api.php
 * SQLAlchemy
 * WTForms
 
