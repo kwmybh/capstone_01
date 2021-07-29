@@ -1,7 +1,12 @@
-# The Project
+# Smart Recipe
 
-Welcome to my first full-stack app, _Smart Recipe_!
-Users sign up to access a free recipe application with detailed instructions and video tutorials(via YouTube)
+All you have is a tomato and looking for possible meal recipes? Look no further!
+
+## Description
+
+A simple site where users sign up to access a free recipe application with detailed instructions and video tutorials(via YouTube). All you need is one ingredient and an appetite.
+
+This app provides additional ingredients to compliment what you already have and with an account, you are able to save recipes for future reference.
 
 ## Design
 
@@ -24,16 +29,6 @@ This is a full-stack app that uses the following frameworks/libraries/APIs:
 * WTForms
 
 - Database Structure
-
-# Smart Recipe
-
-All you have is a tomato and looking for possible meal recipes? Look no further!
-
-## Description
-
-A simple site where users sign up to access a free recipe application with detailed instructions and video tutorials(via YouTube). All you need is one ingredient and an appetite.
-
-This app provides additional ingredients to compliment what you already have and with an account, you are able to save recipes for future reference.
 
 ## Getting Started
 
