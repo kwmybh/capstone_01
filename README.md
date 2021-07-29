@@ -1,22 +1,53 @@
-**The Project**
+# The Project
+
 Welcome to my first full-stack app, _Smart Recipe_!
 Users sign up to access a free recipe application with detailed instructions and video tutorials(via YouTube)
 
-**Design**
+## Design
+
 This is a full-stack app that uses the following frameworks/libraries/APIs:
 
-(frontend)
+- (FRONTEND)
 
-- HTML/CSS with Jinja2 templating
-- Javacript
-- Bootstrap
-- Font Awesome
-- Flask
--
-- Heroku
+* HTML+CSS with Jinja2 templating
+* Javacript
+* Bootstrap
+* Font Awesome
+* Heroku (deployment)
 
-(Backend)
+- (BACKEND)
 
-- Python
-- freemealDB API
--
+* Python
+* Flask
+* freemealDB API
+* SQLAlchemy
+* WTForms
+
+- Database Structure
+
+# Smart Recipe
+
+All you have is a tomato and looking for possible meal recipes? Look no further!
+
+## Description
+
+A simple site where users sign up to access a free recipe application with detailed instructions and video tutorials(via YouTube). All you need is one ingredient and an appetite.
+
+This app provides additional ingredients to compliment what you already have and with an account, you are able to save recipes for future reference.
+
+## Getting Started
+
+### Installing Dependencies
+
+- pip install from requirements.txt
+
+### Executing App
+
+    flask run
+
+### Acknoledgments
+
+- Halim Tannous
+- Springboard
+- YouTube
+- Stack...
