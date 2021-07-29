@@ -1,5 +1,4 @@
-from flask import Flask, redirect, render_template, request, url_for, session  #need session
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, redirect, render_template, request, url_for, session 
 
 from unittest import TestCase
 from app import app, db
@@ -38,14 +37,19 @@ class Module_Test(TestCase):
         return self.app.post('/register', data=data, follow_redirects=True)
 
 
-    def logout(self):
-        return self.app.get('/logout', follow_redirects=True)
+    def test_logout(self):
+        with self.app.session_transaction() as sess:
+            sess['user_id'] = 'userid'
+            res = sess.get('/logout', follow_redirects=True)
+                      
+            self.assertEqual(res.status_code, 302)
+            self.assertEqual(res.location, 'http://localhost/')
 
     
     def test_login(self):
         result = self.app.get('/login', follow_redirects = True)
         self.assertTrue(b'<h1 class="display-4">Log In</h1>' in result.data)
-        pass
+        
 
 
     def test_login_not_in(self):
@@ -57,4 +61,44 @@ class Module_Test(TestCase):
 
         result = self.app.post('/login', data=data, follow_redirects=True)
         self.assertTrue(b'<h1 class="display-4">Log In</h1>' in result.data)
-        pass
+        
+
+    def test_login_success(self):
+        self.register(
+            'name',
+           'password',
+            )
+
+        data =dict(
+            name='name',
+            pwd='password'
+        )
+
+        result = self.app.post('/login', data=data, follow_redirects=True)
+        self.assertTrue(b'<h1 class="display-4">Log In</h1>' in result.data)
+        
+
+    
+    def test_register(self):
+        result = self.app.get('/register', follow_redirects=True)
+        self.assertTrue(b'<h1 class="display-4">Register</h1>' in result.data)
+	
+    
+    def test_register_account_already_exists(self):
+        self.register(
+            'name',
+            'password'
+            )
+
+        data=dict(
+            name = 'name',
+            email = 'fakemail@mail.com',
+            pwd = 'password'
+            )
+
+        result = self.app.post('/register', data=data, follow_redirects=True)
+        self.assertTrue(b'<h1 class="display-4">Register</h1>' in result.data)
+
+
+    # def test_logout(self):
+    #     test
