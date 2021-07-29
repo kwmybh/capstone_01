@@ -99,6 +99,4 @@ class Module_Test(TestCase):
         result = self.app.post('/register', data=data, follow_redirects=True)
         self.assertTrue(b'<h1 class="display-4">Register</h1>' in result.data)
 
-
-    # def test_logout(self):
-    #     test
+    # def test_favorite_add(self):
