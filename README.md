@@ -34,7 +34,7 @@ This is a full-stack app that uses the following frameworks/libraries/APIs:
 
 ### Installing Dependencies
 
-- pip install from requirements.txt
+    pip install -r requirements.txt
 
 ### Executing App
 
