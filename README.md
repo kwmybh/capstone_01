@@ -1,3 +1,4 @@
+
 # Smart Recipe
 
 All you have is a tomato and looking for possible meal recipes? Look no further!
@@ -29,6 +30,7 @@ This is a full-stack app that uses the following frameworks/libraries/APIs:
 * WTForms
 
 - Database Structure
+- <img width="875" alt="Screen Shot 2021-07-29 at 6 28 38 PM" src="https://user-images.githubusercontent.com/46819089/127602815-dbcf4456-39dd-46ec-be9c-9f534a69e030.png">
 
 ## Getting Started
 
