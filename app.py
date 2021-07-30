@@ -14,7 +14,7 @@ js = Bundle('script.js', output='gen/packed.js')
 assets.register('js_all', js)
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///smart_recipe_db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL',"postgresql:///smart_recipe_db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY', 'topsecret')
