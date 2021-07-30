@@ -14,7 +14,7 @@ js = Bundle('script.js', output='gen/packed.js')
 assets.register('js_all', js)
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL',"postgresql:///smart_recipe_db")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL',"postgresql://postgres:H%40L!M@localhost:5432/smart_recipe_db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY', 'topsecret')
@@ -23,7 +23,7 @@ app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY', 'topsecret')
 
 connect_db(app)
 # db.drop_all()
-db.create_all()
+# db.create_all()
 
 toolbar = DebugToolbarExtension(app)
 
@@ -58,6 +58,10 @@ def register():
         name = form.username.data
         pwd = form.password.data
 
+        user_exists=User.query.filter_by(username = name).first()
+        if user_exists:
+            flash("User Exists", "danger")
+            return render_template("register.html", form=form)
         user = User.register(name, pwd)
         
         db.session.add(user)
