@@ -30,7 +30,8 @@ This is a full-stack app that uses the following frameworks/libraries/APIs:
 * WTForms
 
 - Database Structure
-- <img width="875" alt="Screen Shot 2021-07-29 at 6 28 38 PM" src="https://user-images.githubusercontent.com/46819089/127602815-dbcf4456-39dd-46ec-be9c-9f534a69e030.png">
+
+![picturemessage_cpgquqi5 ien](https://user-images.githubusercontent.com/46819089/127821104-a482ebb9-1fbd-4a8b-b51a-19157f1d4d75.png)
 
 ## Getting Started
 
