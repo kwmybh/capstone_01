@@ -16,11 +16,35 @@ assets.register('js_all', js)
 
 # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL',"postgresql://postgres:H%40L!M@localhost:5432/smart_recipe_db")
 # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL',"postgresql:///smart_recipe_db")
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
+# change the ENV to anything other than "dev" to deploy the app in production setup
+ENV = "dev"
+
+if ENV == "prod":
+    app.debug = True
+    # configure the postgresql and pgadmin in your system to be able to use the database
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///smart_recipe_db"
+else:
+    app.debug = False
+    # the postgres link here is the heroku deployment link
+
+    # as the postgres link might be changed by heroku, it is better to use the os.environ to extract the DATABASE_URL
+    DATABASE_URL = os.environ['DATABASE_URL']
+    # os.environ() gives the link with "postgres://blahblahblah" so replacing it with "postgresql://blahblahblah"
+    db_url_split = DATABASE_URL.split("://")
+    db_url_split[0] = db_url_split[0] + "ql"
+    DATABASE_URL = "://".join(db_url_split)
+
+    # configuring the app's DATABASE URI using the DATABASE_URL formed above
+    app.config["SQLALCHEMY_DATABASE_URI"] =  DATABASE_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY', 'topsecret')
 
+uri = os.getenv("DATABASE_URL")  # or other relevant config var
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+# rest of connection code using the connection string `uri`
 
 
 connect_db(app)
