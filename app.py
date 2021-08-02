@@ -14,8 +14,9 @@ js = Bundle('script.js', output='gen/packed.js')
 assets.register('js_all', js)
 
 
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL',"postgresql://postgres:H%40L!M@localhost:5432/smart_recipe_db")
 # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL',"postgresql:///smart_recipe_db")
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY', 'topsecret')
@@ -24,7 +25,7 @@ app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY', 'topsecret')
 
 connect_db(app)
 # db.drop_all()
-# db.create_all()
+db.create_all()
 
 toolbar = DebugToolbarExtension(app)
 
