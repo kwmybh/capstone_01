@@ -1,4 +1,3 @@
-
 # Smart Recipe
 
 All you have is a tomato and looking for possible meal recipes? Look no further!
@@ -25,11 +24,40 @@ This is a full-stack app that uses the following frameworks/libraries/APIs:
 
 * Python
 * Flask
-* MealDB API (https://www.themealdb.com/api.php)
 * SQLAlchemy
 * WTForms
 
-- Database Structure
+## API
+
+- MealDB API (https://www.themealdb.com/api.php)
+  TheMealDB was built in 2016 to provide a free data source api for recipes online
+  in the hope that developers would build applications and cool projects ontop of it.
+  TheMealDB originated on the Kodi forums as a way to browse recpies on your TV.
+
+  Requests are sent to the API with a response of JSON. Developers can sign up for free but with limited features.
+
+  Example:
+
+      	`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInputTxt}`
+
+        {
+            "meals":
+            [
+                {
+                    "idMeal":"52771",
+                    "strMeal":"Spicy Arrabiata Penne",
+                    "strDrinkAlternate":null,
+                    "strCategory":"Vegetarian",
+                    "strArea":"Italian",
+                    "strInstructions":"Bring a large pot of water to a boil...",
+                    "strMealThumb":"https:\/\/www.themealdb.com\/images\/media\/meals\/ustsqw1468250014.jpg",
+                    "strTags":"Pasta,Curry",
+                    "strYoutube":"https:\/\/www.youtube.com\/watch?v=1IszT_guI08"
+                }
+            ]
+        }
+
+* Database Structure
 
 ![picturemessage_cpgquqi5 ien](https://user-images.githubusercontent.com/46819089/127821104-a482ebb9-1fbd-4a8b-b51a-19157f1d4d75.png)
 
