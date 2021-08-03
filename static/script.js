@@ -8,21 +8,12 @@ const recipeCloseBtn = document.getElementById('recipe-close-btn');
 searchBtn.addEventListener('click', getMealList);
 mealList.addEventListener('click', getMealRecipe);
 favoritesBtn.addEventListener('click', () => {
-	console.log('HITT');
 	mealDetailsContent.parentElement.classList.append('recipes');
 });
 recipeCloseBtn.addEventListener('click', () => {
 	mealDetailsContent.parentElement.classList.remove('showRecipe');
 });
 
-//document.querySelector(".formFavorite").addEventListener("submit",(e)=>{
-//	e.preventDefault();
-//	let recipeName=e.target.querySelector("#mealName").value;
-//	let recipeText=e.target.querySelector("#mealInstruction").value;
-//
-//
-//})
-// get meal list that matches with the ingredients
 function getMealList() {
 	let searchInputTxt = document.getElementById('search-input').value.trim();
 	fetch(
