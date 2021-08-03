@@ -2,6 +2,8 @@
 
 All you have is a tomato and looking for possible meal recipes? Look no further!
 
+- Live Site https://smart-recipe-app-ky.herokuapp.com
+
 ## Description
 
 A simple site where users sign up to access a free recipe application with detailed instructions and video tutorials(via YouTube). All you need is one ingredient and an appetite.
