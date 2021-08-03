@@ -12,7 +12,6 @@ favoritesBtn.addEventListener('click', () => {
 	mealDetailsContent.parentElement.classList.append('recipes');
 });
 recipeCloseBtn.addEventListener('click', () => {
-	console.log('X clicked!');
 	mealDetailsContent.parentElement.classList.remove('showRecipe');
 });
 
